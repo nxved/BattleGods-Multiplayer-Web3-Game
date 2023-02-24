@@ -77,7 +77,7 @@ export const GetParams = async () => {
 
   response.account = currentAccount;
 
-  if (getChainID() !== 43113) {
+  if (getChainID() !== 97) {
     response.step = 2;
 
     return response;
@@ -106,15 +106,15 @@ export async function SwitchNetwork() {
   await window?.ethereum?.request({
     method: 'wallet_addEthereumChain',
     params: [{
-      chainId: '0xA869',
-      chainName: 'Fuji C-Chain',
+      chainId: '0x61',
+      chainName: 'Binance Smart Chain Testnet',
       nativeCurrency: {
-        name: 'AVAX',
-        symbol: 'AVAX',
+        name: 'tBNB',
+        symbol: 'tBNB',
         decimals: 18,
       },
-      rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
-      blockExplorerUrls: ['https://testnet.snowtrace.io'],
+      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
+      blockExplorerUrls: ['https://testnet.bscscan.com/'],
     }],
   }).catch((error) => {
     console.log(error);

@@ -35,11 +35,11 @@ const OnboardModal = () => {
         return (
           <>
             <p className={styles.modalText}>
-              You don't have Core Wallet installed!
+              You don't have Metamask installed!
             </p>
             <CustomButton
-              title="Download Core"
-              handleClick={() => window.open('https://core.app/', '_blank')}
+              title="Download Metamask"
+              handleClick={() => window.open('https://google.com/', '_blank')}
             />
           </>
         );
@@ -48,7 +48,7 @@ const OnboardModal = () => {
         return (
           <>
             <p className={styles.modalText}>
-              You haven't connected your account to Core Wallet!
+              You haven't connected your account to Metamask Wallet!
             </p>
             <CustomButton
               title="Connect Account"
@@ -61,7 +61,7 @@ const OnboardModal = () => {
         return (
           <>
             <p className={styles.modalText}>
-              You're on a different network. Switch to Fuji C-Chain.
+              You're on a different network. Switch to Binance TestChain.
             </p>
             <CustomButton title="Switch" handleClick={SwitchNetwork} />
           </>
@@ -71,11 +71,11 @@ const OnboardModal = () => {
         return (
           <>
             <p className={styles.modalText}>
-              Oops, you don't have AVAX tokens in your account
+              Oops, you don't have BNB in your account
             </p>
             <CustomButton
-              title="Grab some test tokens"
-              handleClick={() => window.open('https://faucet.avax.network/', '_blank')}
+              title="Grab some tokens"
+              handleClick={() => window.open('https://google.com/', '_blank')}
             />
           </>
         );
