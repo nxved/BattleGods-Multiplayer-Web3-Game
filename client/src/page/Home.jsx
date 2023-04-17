@@ -4,10 +4,10 @@ import { useGlobalContext } from '../context';
 
 
 const Home = () => {
-const {demo} = useGlobalContext()
+const {contract, walletAddress} = useGlobalContext()
   return (
     <div>
-<h1 className='text-xl'>{demo}</h1>
+<h1 className='text-xl'>{contract}</h1>
     </div>
   )
 };
