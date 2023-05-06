@@ -40,9 +40,19 @@ export const GlobalContextProvider = ({ children }) => {
       setSmartContractAndProvider();
    }, []);
 
-   useEffect(() =>{
-      
-   })
+   useEffect(() => {
+      if (errorMessage) {
+        const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
+  
+        if (parsedErrorMessage) {
+          setShowAlert({
+            status: true,
+            type: 'failure',
+            message: parsedErrorMessage,
+          });
+        }
+      }
+    }, [errorMessage]);
 
    return (
       <GlobalContext.Provider value={{
