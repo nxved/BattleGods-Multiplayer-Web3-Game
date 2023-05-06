@@ -40,6 +40,10 @@ export const GlobalContextProvider = ({ children }) => {
       setSmartContractAndProvider();
    }, []);
 
+   useEffect(() =>{
+      
+   })
+
    return (
       <GlobalContext.Provider value={{
          contract, walletAddress
