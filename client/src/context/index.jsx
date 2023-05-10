@@ -55,6 +55,16 @@ if(step == -1 && contract){
 }
    },[step])
 
+   useEffect(() => {
+      if(showAlert?.status){
+         const timer = setTimeout(() => {
+            setShowAlert({status: false, type : 'info', message: ''});
+         },[5000])
+
+      return () => clearTimeout(timer);
+   }
+   })
+
    // useEffect(() => {
    //    if (errorMessage) {
    //      const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
