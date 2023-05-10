@@ -65,19 +65,19 @@ if(step == -1 && contract){
    }
    })
 
-   // useEffect(() => {
-   //    if (errorMessage) {
-   //      const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
+   useEffect(() => {
+      if (errorMessage) {
+        const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
   
-   //      if (parsedErrorMessage) {
-   //        setShowAlert({
-   //          status: true,
-   //          type: 'failure',
-   //          message: parsedErrorMessage,
-   //        });
-   //      }
-   //    }
-   //  }, [errorMessage]);
+        if (parsedErrorMessage) {
+          setShowAlert({
+            status: true,
+            type: 'failure',
+            message: parsedErrorMessage,
+          });
+        }
+      }
+    }, [errorMessage]);
 
    return (
       <GlobalContext.Provider value={{
