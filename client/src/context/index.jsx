@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef, createContext } from 'r
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import { ABI, ADDRESS } from '../contract';
+import { GetParams } from '../utils/onboard'
 
 const GlobalContext = createContext();
 
@@ -10,6 +11,8 @@ export const GlobalContextProvider = ({ children }) => {
    const [battleGround, setBattleGround] = useState('bg-astral')
    const [provider, setProvider] = useState("");
    const [contract, setContract] = useState("");
+   const [step, setStep] = useState(1);
+
 
    useEffect(() => {
       const isBattleGround = localStorage.getItem("battleground")
@@ -20,6 +23,15 @@ export const GlobalContextProvider = ({ children }) => {
       localStorage.setItem('battleground' , battleGround)
     }
    }, [])
+   
+
+   useEffect(() => {
+ const resetParams = async () => {
+   const currentParam = await GetParams();
+
+ }
+   }, [])
+
 
    const updateCurrentWalletAddress = async () => {
       const accounts = await window.ethereum.request({
