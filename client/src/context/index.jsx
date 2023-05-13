@@ -16,20 +16,23 @@ export const GlobalContextProvider = ({ children }) => {
 
    useEffect(() => {
       const isBattleGround = localStorage.getItem("battleground")
-    if  (isBattleGround){
-      setBattleGround(isBattleGround);
-    }
-    else{
-      localStorage.setItem('battleground' , battleGround)
-    }
+      if (isBattleGround) {
+         setBattleGround(isBattleGround);
+      }
+      else {
+         localStorage.setItem('battleground', battleGround)
+      }
    }, [])
-   
+
 
    useEffect(() => {
- const resetParams = async () => {
-   const currentParam = await GetParams();
-
- }
+      const resetParams = async () => {
+         const currentParam = await GetParams();
+         setStep(currentParam.step);
+      };
+      resetParams();
+      window?.ethereum?.on('chainChanged' , ()=> resetParams());
+      window?.ethereum?.on('accountsChanged' , ()=> resetParams());
    }, [])
 
 
@@ -44,7 +47,7 @@ export const GlobalContextProvider = ({ children }) => {
    useEffect(() => {
       updateCurrentWalletAddress();
 
-      window.ethereum.on('account changed', updateCurrentWalletAddress);
+      window.ethereum.on('accountsChanged', updateCurrentWalletAddress);
    }, []);
 
    useEffect(() => {
@@ -63,48 +66,48 @@ export const GlobalContextProvider = ({ children }) => {
       setSmartContractAndProvider();
    }, []);
 
-   useEffect(() =>{
-if(step == -1 && contract){
-   createEventListners({
-      navigate,
-      contract,
-      provider,
-      walletAddress,
-      setShowAlert,
-      player1Ref,
-      player2Ref,
-      setUpdateGameData,
-   })
-}
-   },[step])
+   useEffect(() => {
+      if (step == -1 && contract) {
+         createEventListners({
+            navigate,
+            contract,
+            provider,
+            walletAddress,
+            setShowAlert,
+            player1Ref,
+            player2Ref,
+            setUpdateGameData,
+         })
+      }
+   }, [step])
 
    useEffect(() => {
 
    })
 
    useEffect(() => {
-      if(showAlert?.status){
+      if (showAlert?.status) {
          const timer = setTimeout(() => {
-            setShowAlert({status: false, type : 'info', message: ''});
-         },[5000])
+            setShowAlert({ status: false, type: 'info', message: '' });
+         }, [5000])
 
-      return () => clearTimeout(timer);
-   }
+         return () => clearTimeout(timer);
+      }
    })
 
    useEffect(() => {
       if (errorMessage) {
-        const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
-  
-        if (parsedErrorMessage) {
-          setShowAlert({
-            status: true,
-            type: 'failure',
-            message: parsedErrorMessage,
-          });
-        }
+         const parsedErrorMessage = errorMessage?.reason?.slice('execution reverted: '.length).slice(0, -1);
+
+         if (parsedErrorMessage) {
+            setShowAlert({
+               status: true,
+               type: 'failure',
+               message: parsedErrorMessage,
+            });
+         }
       }
-    }, [errorMessage]);
+   }, [errorMessage]);
 
    return (
       <GlobalContext.Provider value={{
