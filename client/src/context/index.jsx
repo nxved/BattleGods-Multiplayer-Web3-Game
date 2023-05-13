@@ -7,8 +7,19 @@ const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
    const [walletAddress, setWalletAddress] = useState("");
+   const [battleGround, setBattleGround] = useState('bg-astral')
    const [provider, setProvider] = useState("");
    const [contract, setContract] = useState("");
+
+   useEffect(() => {
+      const isBattleGround = localStorage.getItem("battleground")
+    if  (isBattleGround){
+      setBattleGround(isBattleGround);
+    }
+    else{
+      localStorage.setItem('battleground' , battleGround)
+    }
+   }, [])
 
    const updateCurrentWalletAddress = async () => {
       const accounts = await window.ethereum.request({
@@ -54,6 +65,10 @@ if(step == -1 && contract){
    })
 }
    },[step])
+
+   useEffect(() => {
+
+   })
 
    useEffect(() => {
       if(showAlert?.status){
