@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef, createContext } from 'react';
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
+import { useNavigate } from 'react-router-dom';
 import { ABI, ADDRESS } from '../contract';
 import { GetParams } from '../utils/onboard'
 
@@ -12,7 +13,16 @@ export const GlobalContextProvider = ({ children }) => {
    const [provider, setProvider] = useState("");
    const [contract, setContract] = useState("");
    const [step, setStep] = useState(1);
+   const [gameData, setGameData] = useState({ players: [], pendingBattles: [], activeBattle: null });
+   const [showAlert, setShowAlert] = useState({ status: false, type: 'info', message: '' });
+   const [battleName, setBattleName] = useState('');
+   const [errorMessage, setErrorMessage] = useState('');
+   const [updateGameData, setUpdateGameData] = useState(0);
 
+   const player1Ref = useRef();
+   const player2Ref = useRef();
+
+   const navigate = useNavigate();
 
    useEffect(() => {
       const isBattleGround = localStorage.getItem("battleground")
@@ -31,8 +41,8 @@ export const GlobalContextProvider = ({ children }) => {
          setStep(currentParam.step);
       };
       resetParams();
-      window?.ethereum?.on('chainChanged' , ()=> resetParams());
-      window?.ethereum?.on('accountsChanged' , ()=> resetParams());
+      window?.ethereum?.on('chainChanged', () => resetParams());
+      window?.ethereum?.on('accountsChanged', () => resetParams());
    }, [])
 
 
@@ -82,8 +92,24 @@ export const GlobalContextProvider = ({ children }) => {
    }, [step])
 
    useEffect(() => {
+      const fetchGameData = async () => {
+         if (contract) {
+            const fetchedBattles = await contract.getAllBattles();
+            const pendingBattles = fetchedBattles.filter((battle) => battle.battleStatus === 0);
+            let activeBattle = null;
 
-   })
+            fetchedBattles.forEach((battle) => {
+               if (battle.players.find((player) => player.toLowerCase() === walletAddress.toLowerCase())) {
+                  if (battle.winner.startsWith('0x00')) {
+                     activeBattle = battle;
+                  }
+               }
+            })
+         }
+         setGameData({ pendingBattles: pendingBattles.slice(1), activeBattle })
+      };
+      fetchGameData();
+   }, [contract, updateGameData])
 
    useEffect(() => {
       if (showAlert?.status) {
@@ -111,7 +137,20 @@ export const GlobalContextProvider = ({ children }) => {
 
    return (
       <GlobalContext.Provider value={{
-         contract, walletAddress
+         player1Ref,
+         player2Ref,
+         battleGround,
+         setBattleGround,
+         contract,
+         gameData,
+         walletAddress,
+         updateCurrentWalletAddress,
+         showAlert,
+         setShowAlert,
+         battleName,
+         setBattleName,
+         errorMessage,
+         setErrorMessage
       }}>
          {children}
       </GlobalContext.Provider>
