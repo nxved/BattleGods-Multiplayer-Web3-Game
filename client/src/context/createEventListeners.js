@@ -12,3 +12,17 @@ const AddNewEvent = (eventFilter, provider, cb) =>{
       cb(parsedLogs);
    });
 }
+
+
+const getCoords = (cardRef) => {
+const {left , top, width, height} = cardRef.current.getBoundClientRect();
+
+return {
+   pageX: left + width /2,
+   pageY: top + height / 2,
+};
+};
+
+const emptyAccount = '0x0000000000000000000000000000000000000000';
+
+
