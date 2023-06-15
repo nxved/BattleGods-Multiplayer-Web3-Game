@@ -26,3 +26,15 @@ return {
 const emptyAccount = '0x0000000000000000000000000000000000000000';
 
 
+
+const getCoords = (cardRef) => {
+   const {left , top, width, height} = cardRef.current.getBoundClientRect();
+   
+   return {
+      pageX: left + width /2,
+      pageY: top + height / 2,
+   };
+   };
+
+   
+//https://github.com/adrianhajdin/project_web3_battle_game/blob/main/client/src/context/createEventListeners.js
